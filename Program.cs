@@ -1,25 +1,50 @@
-﻿using System;
-public class Book
+﻿public class Account
 {
-    public string Title { get; set; }
-    public string Author { get; set; }
-    public int Year { get; set; }
-    public Book(string title, string author, int year)
+    private decimal balance = 0;
+    public decimal Balance
     {
-        Title = title;
-        Author = author;
-        Year = year;
+        get { return balance; }
     }
-    public void ShowInfo()
+    public void Deposit(decimal amount)
     {
-        Console.WriteLine($"Название: {Title}, автор: {Author}, Год: {Year}");
+        if (amount > 0)
+        {
+            balance += amount;
+            Console.WriteLine($"Пополнение на {amount} | баланс: {balance}");
+        }
+        else
+        {
+            Console.WriteLine("Сумма пополнения меньше нуля.");
+        }
+    }
+    public void Withdraw(decimal amount)
+    {
+        if (amount > 0)
+        {
+            if (balance >= amount)
+            {
+                balance -= amount;
+                Console.WriteLine($"Снятие {amount} | баланс: {balance}");
+            }
+            else
+            {
+                Console.WriteLine($"Недостаточно средств. (Баланс: {balance} - запрос: {amount})");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Сумма снятия меньше нуля.");
+        }
     }
 }
 class Program
 {
     static void Main(string[] args)
     {
-        var book = new Book("1984", "Джордж Оруэлл", 1949);
-        book.ShowInfo();
+        var acc = new Account();
+        acc.Deposit(1000);
+        acc.Withdraw(300);
+
+        Console.WriteLine(acc.Balance);
     }
 }
